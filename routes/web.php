@@ -1,12 +1,30 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\NilaiController;
+use App\Http\Controllers\ProdiController;
+use Illuminate\Support\Facades\Route;
 
-// Dashboard (sementara, tanpa middleware auth — akan ditambah di Bab 7)
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
+});
 
-// Route untuk modul lain akan ditambahkan di Bab 5
-// Route::resource('prodi', ProdiController::class);
-// Route::resource('mahasiswa', MahasiswaController::class);
-// Route::resource('nilai', NilaiController::class);
+Route::middleware('auth')->group(function () {
+    // Logout
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Dashboard
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Modul Program Studi
+    Route::resource('prodi', ProdiController::class);
+
+    // Modul Mahasiswa
+    Route::resource('mahasiswa', MahasiswaController::class);
+
+    // Modul Nilai
+    Route::resource('nilai', NilaiController::class);
+});

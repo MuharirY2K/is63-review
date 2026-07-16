@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Nilai extends Model
 {
+    /** @use HasFactory<\Database\Factories\NilaiFactory> */
     use HasFactory;
 
     protected $table = 'nilais';
@@ -41,14 +42,14 @@ class Nilai extends Model
     // ===== HELPER: konversi nilai angka ke huruf =====
     public static function konversiHuruf(float $angka): string
     {
-        return match(true) {
+        return match (true) {
             $angka >= 85 => 'A',
             $angka >= 80 => 'AB',
             $angka >= 70 => 'B',
             $angka >= 65 => 'BC',
             $angka >= 55 => 'C',
             $angka >= 40 => 'D',
-            default      => 'E',
+            default => 'E',
         };
     }
 }

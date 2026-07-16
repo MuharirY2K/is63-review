@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Prodi extends Model
 {
+    /** @use HasFactory<\Database\Factories\ProdiFactory> */
     use HasFactory;
 
     protected $table = 'prodis';
